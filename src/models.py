@@ -3,7 +3,7 @@ from sqlalchemy.orm import (DeclarativeBase, Mapped,
                             mapped_column, selectinload,
                             relationship)
 from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, AsyncSession
-from sqlalchemy import ForeignKey, select
+from sqlalchemy import ForeignKey
 import datetime
 import asyncio
 from typing import List
@@ -37,3 +37,13 @@ class User(Base):
     chat_id: Mapped[str]
     subscribes: Mapped[List[Subscribes]] = relationship()
     history: Mapped[List[History]] = relationship()
+
+
+async def main() -> None:
+    engine = create_async_engine("postgresql+asyncpg://postgres:postgres@db/postgres")
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.drop_all)
+        await conn.run_sync(Base.metadata.create_all)
+
+if __name__ == '__main__':
+    asyncio.run(main())
