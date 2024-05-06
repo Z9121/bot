@@ -2,7 +2,7 @@ from celery import Celery
 from celery.schedules import crontab
 import celery
 
-from models import User, Subscribes
+from src.models import User, Subscribes
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import create_async_engine
@@ -23,10 +23,10 @@ load_dotenv()
 TOKEN = getenv("BOT_TOKEN")
 RATE_URL = getenv("RATE_URL")
 
-app = Celery('tasks', broker='pyamqp://guest@localhost//')
+app = Celery('tasks', broker='pyamqp://guest@rabbit//')
 
 engine = create_async_engine(
-    "postgresql+asyncpg://forms_admin:qwerty@localhost/telegram_bot")
+    "postgresql+asyncpg://postgres:postgres@db/postgres")
 async_session = async_sessionmaker(engine, expire_on_commit=False)
 
 

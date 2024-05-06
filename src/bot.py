@@ -26,7 +26,7 @@ RATE_URL = getenv("RATE_URL")
 dp = Dispatcher()
 
 engine = create_async_engine(
-    "postgresql+asyncpg://forms_admin:qwerty@localhost/telegram_bot")
+    "postgresql+asyncpg://postgres:postgres@db/postgres")
 async_session = async_sessionmaker(engine, expire_on_commit=False)
 
 RATE = 'rate'
